@@ -1,1 +1,118 @@
 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaliMarket - Espace vendeur</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f6f8;
+  color: #222;
+}
+
+header {
+  background: #087f23;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+.container {
+  max-width: 600px;
+  margin: 25px auto;
+  padding: 20px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+}
+
+h1, h2 {
+  margin-top: 0;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 13px;
+  margin: 8px 0 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  background: #087f23;
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.info {
+  background: #fff8d6;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🇲🇱 MaliMarket</h1>
+  <p>Espace vendeur</p>
+</header>
+
+<div class="container">
+
+  <div class="card">
+
+    <div class="info">
+      📢 Publiez vos produits et présentez votre commerce aux clients de MaliMarket.
+    </div>
+
+    <h2>Ajouter un produit</h2>
+
+    <label>Nom du produit</label>
+    <input type="text" placeholder="Ex : Poulet frais">
+
+    <label>Prix en FCFA</label>
+    <input type="number" placeholder="Ex : 4500">
+
+    <label>Catégorie</label>
+    <select>
+      <option>Alimentation</option>
+      <option>Mode</option>
+      <option>Maison</option>
+      <option>Électronique</option>
+      <option>Autre</option>
+    </select>
+
+    <label>Description</label>
+    <textarea rows="4" placeholder="Décrivez votre produit"></textarea>
+
+    <label>Numéro WhatsApp</label>
+    <input type="tel" placeholder="Ex : 7XXXXXXXX">
+
+    <button type="button">
+      📦 Publier mon produit
+    </button>
+
+  </div>
+
+</div>
+
+</body>
+</html>
