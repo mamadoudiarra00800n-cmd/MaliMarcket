@@ -74,7 +74,7 @@ app.post("/api/create-checkout", async (req, res) => {
           },
           actions: {
             cancel_url: SHOP_URL,
-            return_url: SHOP_URL
+            return_url: SHOP_URL + "?payment=return"
           }
         })
       }
