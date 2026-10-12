@@ -8,7 +8,7 @@ const SHOP_URL =
   "https://mamadoudiarra00800n-cmd.github.io/MaliMarcket/";
 
 app.use(cors({
-  origin: "https://mamadoudiarra00800n.github.io"
+  origin: "https://mamadoudiarra00800n-cmd.github.io"
 }));
 
 app.use(express.json());
