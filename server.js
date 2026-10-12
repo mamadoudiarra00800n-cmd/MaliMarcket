@@ -1,10 +1,14 @@
+
 const express = require("express");
 const cors = require("cors");
 
 const app = express();
 
+const SHOP_URL =
+  "https://mamadoudiarra00800n-cmd.github.io/MaliMarcket/";
+
 app.use(cors({
-  origin: "https://mamadoudiarra00800n-cmd.github.io"
+  origin: "https://mamadoudiarra00800n.github.io"
 }));
 
 app.use(express.json());
@@ -21,11 +25,11 @@ app.get("/", (req, res) => {
 app.post("/api/create-checkout", async (req, res) => {
   try {
     const { total, items } = req.body;
-
     const amount = Number(total);
 
     if (!Number.isFinite(amount) || amount <= 0) {
       return res.status(400).json({
+        success: false,
         error: "Montant invalide"
       });
     }
@@ -34,13 +38,14 @@ app.post("/api/create-checkout", async (req, res) => {
 
     if (Array.isArray(items)) {
       items.forEach((item, index) => {
+        const price = Number(item.price || 0);
+        const quantity = Number(item.quantity || 1);
+
         invoiceItems[`item_${index}`] = {
           name: String(item.name || "Produit"),
-          quantity: Number(item.quantity || 1),
-          unit_price: String(item.price || 0),
-          total_price: String(
-            Number(item.price || 0) * Number(item.quantity || 1)
-          ),
+          quantity,
+          unit_price: String(price),
+          total_price: String(price * quantity),
           description: ""
         };
       });
@@ -65,14 +70,11 @@ app.post("/api/create-checkout", async (req, res) => {
           store: {
             name: "MaliMarcket",
             tagline: "Marketplace du Mali",
-            website_url:
-              "https://mamadoudiarra00800n-cmd.github.io/MaliMarcket/"
+            website_url: SHOP_URL
           },
           actions: {
-            cancel_url:
-              "https://mamadoudiarra00800n-cmd.github.io/MaliMarcket/",
-            return_url:
-              "https://mamadoudiarra00800n-cmd.github.io/MaliMarcket/"
+            cancel_url: SHOP_URL,
+            return_url: SHOP_URL
           }
         })
       }
@@ -80,22 +82,24 @@ app.post("/api/create-checkout", async (req, res) => {
 
     const data = await response.json();
 
-    if (data.response_code !== "00") {
-      return res.status(400).json(data);
+    if (!response.ok || data.response_code !== "00") {
+      return res.status(400).json({
+        success: false,
+        error: "PayDunya n'a pas créé la facture"
+      });
     }
 
-    res.json({
+    return res.json({
       success: true,
       payment_url: data.response_text,
       token: data.token
     });
-
   } catch (error) {
-    console.error(error);
+    console.error("Erreur création paiement:", error.message);
 
-    res.status(500).json({
-      error: "Erreur serveur",
-      message: error.message
+    return res.status(500).json({
+      success: false,
+      error: "Erreur serveur"
     });
   }
 });
@@ -126,10 +130,14 @@ app.get("/api/confirm-checkout", async (req, res) => {
     );
 
     const data = await response.json();
+    const status = String(data.invoice?.status || "").toLowerCase();
 
     return res.json({
-      success: response.ok && data.response_code === "00",
-      result: data
+      success:
+        response.ok &&
+        data.response_code === "00" &&
+        status === "completed",
+      status: status || "unknown"
     });
   } catch (error) {
     console.error("Erreur de confirmation:", error.message);
@@ -144,3 +152,4 @@ app.get("/api/confirm-checkout", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`MaliMarcket API démarrée sur le port ${PORT}`);
 });
+
