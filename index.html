@@ -957,9 +957,9 @@ async function checkout() {
 
     window.location.href = data.payment_url;
 
-  } catch (error) {
-    alert("Impossible de contacter le serveur. Réessaie.");
-    console.error(error);
+  catch (error) {
+    alert("Erreur : " + error.message);
+    console.error("Erreur paiement :", error);
   }
 }
 
