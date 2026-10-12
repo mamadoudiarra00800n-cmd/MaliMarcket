@@ -957,7 +957,7 @@ async function checkout() {
 
     window.location.href = data.payment_url;
 
-  catch (error) {
+  } catch (error) {
     alert("Erreur : " + error.message);
     console.error("Erreur paiement :", error);
   }
