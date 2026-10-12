@@ -133,6 +133,11 @@ app.get("/api/confirm-checkout", async (req, res) => {
     );
 
     const data = await response.json();
+    console.log("Confirmation PayDunya :", {
+  httpStatus: response.status,
+  responseCode: data.response_code,
+  invoiceStatus: data.invoice?.status
+});
     const status = String(data.invoice?.status || "").toLowerCase();
 
     return res.json({
