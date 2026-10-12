@@ -916,7 +916,8 @@
 
   }
 
-  async function checkout() {
+  
+async function checkout() {
   if (cart.length === 0) {
     alert("🛒 Votre panier est vide.");
     return;
@@ -960,7 +961,43 @@
     alert("Impossible de contacter le serveur. Réessaie.");
     console.error(error);
   }
+}
+
+async function checkPaymentReturn() {
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get("token");
+
+  if (!token) {
+    return;
   }
+
+  try {
+    const response = await fetch(
+      "https://malimarcket.onrender.com/api/confirm-checkout?token=" +
+        encodeURIComponent(token)
+    );
+
+    const data = await response.json();
+
+    if (response.ok && data.success === true) {
+      alert("✅ Paiement confirmé par PayDunya !");
+    } else {
+      alert("⚠️ Paiement non confirmé. Vérifie son statut avant de réessayer.");
+    }
+  } catch (error) {
+    alert("Impossible de vérifier le paiement. Réessaie plus tard.");
+    console.error(error);
+  } finally {
+    window.history.replaceState(
+      {},
+      document.title,
+      window.location.pathname
+    );
+  }
+}
+
+checkPaymentReturn();
+
 
   displayProducts();
 
