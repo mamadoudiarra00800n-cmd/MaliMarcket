@@ -70,20 +70,21 @@ app.post("/api/create-checkout", async (req, res) => {
             total_amount: amount,
             description: "Commande MaliMarcket"
           },
+        
           store: {
             name: "MaliMarcket",
             tagline: "Marketplace du Mali",
             website_url: SHOP_URL
           },
-actions: {
-  cancel_url: SHOP_URL,
-  return_url: SHOP_URL + "?payment=return",
-  callback_url: "https://malimarcket.onrender.com/api/payment-callback"
-}
+          actions: {
+            cancel_url: SHOP_URL,
+            return_url: SHOP_URL + "?payment=return",
+            callback_url: "https://malimarcket.onrender.com/api/payment-callback"
           }
         })
       }
     );
+
 
     const data = await response.json();
 
